@@ -1,11 +1,11 @@
 const should = require('should');
 const sinon = require('sinon');
-const bookController = require('../controllers/booksController');
+const cakeController = require('../controllers/cakesController');
 
-describe('Book Controller Tests:', () => {
+describe('Cake Controller Tests:', () => {
   describe('Post', () => {
     it('should not allow an empty name on post', () => {
-      const Book = function (book) {
+      const Cake = function (cake) {
         this.save = () => {};
       };
 
@@ -21,7 +21,7 @@ describe('Book Controller Tests:', () => {
         json: sinon.spy(),
       };
 
-      const controller = bookController(Book);
+      const controller = cakeController(Cake);
       controller.post(req, res);
 
       res.status.calledWith(400).should.equal(true, `Bad Status ${res.status.args[0][0]}`);

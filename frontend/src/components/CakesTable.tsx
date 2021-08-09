@@ -3,14 +3,15 @@ import { Image, Table } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { CakeData } from '../api/CakeApi';
 import { LoadStatus } from '../util/PageUtils';
-import { EditCell, HeaderCell, NoDataRow, SpinnerRow } from '../util/TableUtil';
+import { DeleteCell, EditCell, HeaderCell, NoDataRow, SpinnerRow } from '../util/TableUtil';
 
 interface Props {
   status: LoadStatus;
   cakeList: CakeData[];
+  onDelete: (id: string) => void;
 }
 
-const CakesTable = ({ cakeList, status }: Props) => {
+const CakesTable = ({ cakeList, status, onDelete }: Props) => {
   const history = useHistory();
 
   return (
@@ -19,12 +20,13 @@ const CakesTable = ({ cakeList, status }: Props) => {
 
       <thead className="thead-light">
         <tr>
-          <HeaderCell width="5%" title="ID" />
+          <HeaderCell width="5%" title="#" />
           <HeaderCell width="20%" title="Name" />
           <HeaderCell width="20%" title="Comment" />
-          <HeaderCell width="20%" title="Yum Factor" />
-          <HeaderCell width="20%" title="Image" className="text-center" />
-          <HeaderCell title="Edit" className="text-right" />
+          <HeaderCell width="10%" title="Yum Factor" />
+          <HeaderCell title="Image" className="text-center" />
+          <HeaderCell width="5%" title="Edit" className="text-center" />
+          <HeaderCell width="7%" title="Delete" className="text-center" />
         </tr>
       </thead>
       {status === LoadStatus.LOADING ? (
@@ -41,14 +43,15 @@ const CakesTable = ({ cakeList, status }: Props) => {
             <React.Fragment key={cake._id}>
               <tbody>
                 <tr>
-                  <td>{cake._id}</td>
+                  <td>{index + 1}</td>
                   <td>{cake.name}</td>
                   <td>{cake.comment}</td>
                   <td>{cake.yumFactor}</td>
                   <td className="text-center">
-                    <Image src={cake.imageUrl} width="100px" />
+                    <Image src={cake.imageUrl} width="200px" />
                   </td>
                   <EditCell onClick={() => history.push(`/cakes/${cake._id}`)} />
+                  <DeleteCell onClick={() => onDelete(cake._id)} />
                 </tr>
               </tbody>
             </React.Fragment>

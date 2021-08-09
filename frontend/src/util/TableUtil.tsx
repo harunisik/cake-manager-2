@@ -14,55 +14,26 @@ export const HeaderCell = ({ width = '', title = '', className = 'text-left' }: 
   );
 };
 
-interface CollapseCellProps {
-  onClick: () => void;
-  direction: string;
-  size?: number;
-}
-
-export const CollapseCell = ({ onClick, direction, size = 0 }: CollapseCellProps) => {
-  return size > 0 ? (
-    <td onClick={onClick} className="text-left" style={{ cursor: 'pointer' }}>
-      {direction === 'down' ? (
-        <i className="fas fa-chevron-circle-down" />
-      ) : (
-        <i className="fas fa-chevron-circle-right" />
-      )}
-      {` (${size})`}
-    </td>
-  ) : (
-    <td></td>
-  );
-};
-
-interface StatusCellProps {
-  status: 'green' | 'red' | 'grey';
-}
-
-export const StatusCell = ({ status }: StatusCellProps) => {
-  return (
-    <td className="text-center">
-      <i className="fas fa-circle" style={{ color: status }} />
-    </td>
-  );
-};
-
 interface EditCellProps {
   onClick: () => void;
 }
 
 export const EditCell = ({ onClick }: EditCellProps) => {
   return (
-    <td className="text-right">
+    <td className="text-center">
       <i className="far fa-edit" style={{ cursor: 'pointer' }} onClick={onClick} />
     </td>
   );
 };
 
-export const MinusCell = () => {
+interface DeleteCellProps {
+  onClick: () => void;
+}
+
+export const DeleteCell = ({ onClick }: DeleteCellProps) => {
   return (
     <td className="text-center">
-      <i className="fas fa-minus" />
+      <i className="far fa-trash-alt" style={{ cursor: 'pointer' }} onClick={onClick} />
     </td>
   );
 };

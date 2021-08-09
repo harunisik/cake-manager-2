@@ -10,9 +10,10 @@ interface Props {
   cakeData: CakeData;
   onChange: ChangeEventHandler<HTMLInputElement>;
   onSubmit: FormEventHandler<HTMLFormElement>;
+  onDelete: (id: string) => void;
 }
 
-function CakeForm({ pageMode, formSubmitStatus, loadStatus, cakeData, onChange, onSubmit }: Props) {
+function CakeForm({ pageMode, formSubmitStatus, loadStatus, cakeData, onChange, onSubmit, onDelete }: Props) {
   return (
     <Form noValidate validated={formSubmitStatus !== FormSubmitStatus.IDLE} onSubmit={onSubmit} data-testid="cakeForm">
       {pageMode === PageMode.EDIT && (
@@ -130,6 +131,22 @@ function CakeForm({ pageMode, formSubmitStatus, loadStatus, cakeData, onChange, 
             Save
           </Button>
         </Col>
+        {pageMode === PageMode.EDIT && (
+          <Col sm={{ span: 2 }}>
+            <Button
+              className="btn-block"
+              variant="danger"
+              size="sm"
+              onClick={() => onDelete(cakeData._id)}
+              disabled={formSubmitStatus === FormSubmitStatus.SUBMITTING || loadStatus !== LoadStatus.IDLE}>
+              {formSubmitStatus === FormSubmitStatus.SUBMITTING && (
+                <Spinner size="sm" animation="border" className="mr-1" />
+              )}
+              <i className="fas fa-trash-alt mr-2" aria-hidden="true" />
+              Delete
+            </Button>
+          </Col>
+        )}
       </Form.Group>
     </Form>
   );

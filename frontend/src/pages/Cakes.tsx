@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Button, Col, Container, Row, Alert } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import CakesTable from '../components/CakesTable';
-import { getCakes } from '../api/CakeApi';
+import { CakeData, deleteCake, getCakes } from '../api/CakeApi';
 import { LoadStatus } from '../util/PageUtils';
+import { toast } from 'react-toastify';
 
 function Cakes() {
-  const [cakes, setCakes] = useState([]);
+  const [cakes, setCakes] = useState<CakeData[]>([]);
   const [tableStatus, setTableStatus] = useState(LoadStatus.IDLE);
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
@@ -22,6 +23,21 @@ function Cakes() {
       .then((cakeList) => {
         setTableStatus(LoadStatus.IDLE);
         setCakes(cakeList);
+      })
+      .catch((error) => {
+        setTableStatus(LoadStatus.FAILED);
+        setErrorMessage(error.message);
+      });
+  };
+
+  const handleDeleteCake = (id: string) => {
+    deleteCake(id)
+      .then(() => {
+        setCakes((previousData) => {
+          previousData = previousData.filter((cake) => cake._id !== id);
+          return [...previousData];
+        });
+        toast.info('Cake deleted successfully.', { position: 'bottom-right' });
       })
       .catch((error) => {
         setTableStatus(LoadStatus.FAILED);
@@ -66,7 +82,7 @@ function Cakes() {
       </Row>
       <Row>
         <Col>
-          <CakesTable cakeList={cakes} status={tableStatus} />
+          <CakesTable cakeList={cakes} status={tableStatus} onDelete={handleDeleteCake} />
         </Col>
       </Row>
     </Container>

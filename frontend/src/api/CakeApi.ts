@@ -17,21 +17,21 @@ export interface CakeUpdateData {
 }
 
 export function getCakes() {
-  return API.get('/books').then(handleResponse).catch(handleError);
+  return API.get('/cakes').then(handleResponse).catch(handleError);
 }
 
 export function getCake(id: string) {
-  return API.get(`/books/${id}`).then(handleResponse).catch(handleError);
+  return API.get(`/cakes/${id}`).then(handleResponse).catch(handleError);
 }
 
 export function saveCake(data: CakeUpdateData) {
-  return API.post('/books', data).then(handleResponse).catch(handleError);
+  return API.post('/cakes', data).then(handleResponse).catch(handleError);
 }
 
 export function updateCake(id: string, data: CakeUpdateData) {
-  return API.put(`/books/${id}`, data).then(handleResponse).catch(handleError);
+  return API.put(`/cakes/${id}`, data).then(handleResponse).catch(handleError);
 }
 
-export function deleteCake(id: string, data: CakeUpdateData) {
-  return API.delete(`/books/${id}`).then(handleResponse).catch(handleError);
+export function deleteCake(id: string) {
+  return API.delete(`/cakes/${id}`).then(handleResponse).catch(handleError);
 }

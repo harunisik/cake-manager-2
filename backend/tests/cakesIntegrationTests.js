@@ -7,16 +7,16 @@ process.env.ENV = 'Test';
 
 const app = require('../app.js');
 
-const Book = mongoose.model('Book');
+const Cake = mongoose.model('Cake');
 const agent = request.agent(app);
 
-describe('Book Crud Test', () => {
-  it('should allow a book to be posted and return read and _it', (done) => {
-    const bookPost = { name: 'My Book', comment: 'Jon', imageUrl: 'Fiction', yumFactor: 1 };
+describe('Cake Crud Test', () => {
+  it('should allow a cake to be posted and return read and _it', (done) => {
+    const cakePost = { name: 'My Cake', comment: 'Jon', imageUrl: 'Fiction', yumFactor: 1 };
 
     agent
-      .post('/api/books')
-      .send(bookPost)
+      .post('/api/cakes')
+      .send(cakePost)
       .expect(200)
       .end((err, results) => {
         //console.log(results);
@@ -27,7 +27,7 @@ describe('Book Crud Test', () => {
   });
 
   afterEach((done) => {
-    Book.deleteMany({}).exec();
+    Cake.deleteMany({}).exec();
     done();
   });
 

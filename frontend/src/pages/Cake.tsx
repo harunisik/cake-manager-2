@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router';
-import { getCake, saveCake, updateCake } from '../api/CakeApi';
+import { deleteCake, getCake, saveCake, updateCake } from '../api/CakeApi';
 import { Col, Container, Row, Alert } from 'react-bootstrap';
 import CakeForm from '../components/CakeForm';
 import { toast } from 'react-toastify';
@@ -96,6 +96,18 @@ function Cake() {
     history.push('/');
   };
 
+  const handleDeleteCake = (id: string) => {
+    deleteCake(id)
+      .then(() => {
+        toast.info('Cake deleted successfully.', { position: 'bottom-right' });
+        history.push('/');
+      })
+      .catch((error) => {
+        setFormSubmitStatus(FormSubmitStatus.FAILED);
+        setErrorMessage(error.message);
+      });
+  };
+
   const isFailed = () => {
     return formSubmitStatus === FormSubmitStatus.FAILED || formLoadStatus === LoadStatus.FAILED;
   };
@@ -135,6 +147,7 @@ function Cake() {
               cakeData={cakeData}
               onChange={handleDataChange}
               onSubmit={handleFormSubmit}
+              onDelete={handleDeleteCake}
             />
           </Col>
         </Row>

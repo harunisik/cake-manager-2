@@ -1,0 +1,29 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3.7'
+
+services:
+  backend:
+    container_name: cake-manager-2-service
+    build:
+      context: backend # Use an image built from the specified dockerfile in the `backend` directory.
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080' # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on:
+      - mongodb # This service depends on mysql. Start that first.
+
+  frontend:
+    container_name: cake-manager-2-ui
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+
+  mongodb:
+    container_name: cake-manager-2-db
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
